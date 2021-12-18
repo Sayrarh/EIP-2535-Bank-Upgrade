@@ -14,7 +14,7 @@ git clone https://github.com/Timidan/diamond-3-hardhat.git
 2. Install NPM packages:
 ```console
 cd diamond-3-hardhat
-npm install or yarn add
+npm install or yarn install
 ```
 
 ## Deployment

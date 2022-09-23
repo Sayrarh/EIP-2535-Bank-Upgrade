@@ -4,14 +4,17 @@
 import { ContractReceipt, Transaction } from "ethers";
 import { TransactionDescription, TransactionTypes } from "ethers/lib/utils";
 import { ethers } from "hardhat";
-import { DiamondCutFacet } from "../typechain-types";
+import { DiamondCutFacet } from "../typechain-types"
 import { getSelectors, FacetCutAction } from "./libraries/diamond";
 
 export let DiamondAddress: string;
 
+//DIAMOND CONTRACT ADDRESS: 0x0e69BDA41D26214501C788B37ef997F044CAa4b5
+
 export async function deployDiamond() {
-  const accounts = await ethers.getSigners();
-  const contractOwner = accounts[0];
+  //const accounts = await ethers.getSigners();
+  const contractOwner = "0x637CcDeBB20f849C0AA1654DEe62B552a058EA87";
+  //const contractOwner = accounts[0];
 
   // deploy DiamondCutFacet
   const DiamondCutFacet = await ethers.getContractFactory("DiamondCutFacet");
@@ -22,7 +25,7 @@ export async function deployDiamond() {
   // deploy Diamond
   const Diamond = await ethers.getContractFactory("Diamond");
   const diamond = await Diamond.deploy(
-    contractOwner.address,
+    contractOwner,
     diamondCutFacet.address
   );
   await diamond.deployed();
@@ -39,7 +42,7 @@ export async function deployDiamond() {
   // deploy facets
   console.log("");
   console.log("Deploying facets");
-  const FacetNames = ["DiamondLoupeFacet", "OwnershipFacet"];
+  const FacetNames = ["DiamondLoupeFacet", "OwnershipFacet", "Bank"];
   const cut = [];
   for (const FacetName of FacetNames) {
     const Facet = await ethers.getContractFactory(FacetName);
@@ -52,6 +55,29 @@ export async function deployDiamond() {
       functionSelectors: getSelectors(facet),
     });
   }
+
+  console.log(cut);
+  
+  
+  const amount = ethers.utils.parseEther("0.01");
+  const Bank = await ethers.getContractAt("Bank", cut[2].facetAddress);
+  
+  console.log(cut[2].facetAddress);
+  console.log(Bank);
+
+  const deposit = await Bank.deposit({value: amount});
+  console.log("deposited here", deposit);
+  
+
+  
+  const getContractBal = await Bank.getContractBal();
+  console.log("Here is the contract balance", getContractBal);
+  
+  const getUserBal = await Bank.getUserBal();
+  console.log("This is this user's balance", getUserBal);
+
+  // const withdraw = await Bank.withdraw(amount);
+  // console.log("Please, be nice", withdraw);
 
   // upgrade diamond with facets
   console.log("");

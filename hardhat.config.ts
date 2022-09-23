@@ -17,7 +17,7 @@ module.exports = {
     timeout: 100000000,
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: process.env.API_TOKEN,
   },
   networks: {
     hardhat: {
@@ -28,9 +28,9 @@ module.exports = {
     localhost: {
       timeout: 8000000,
     },
-    kovan: {
-      url: process.env.KOVAN_URL,
-      accounts: [process.env.SECRET],
+    goerli: {
+      url: process.env.GOERLI_API,
+      accounts: [process.env.PRIVATE_KEY],
       blockGasLimit: 200000000000,
       gasPrice: 10000000000,
       timeout: 90000,

@@ -58,7 +58,7 @@ export async function deployDiamond() {
 
   console.log(cut);
   
-  
+  ////INTERRACTION
   const amount = ethers.utils.parseEther("0.01");
   const Bank = await ethers.getContractAt("Bank", cut[2].facetAddress);
   
@@ -99,6 +99,17 @@ export async function deployDiamond() {
   console.log("Completed diamond cut");
   DiamondAddress = diamond.address;
 }
+
+// No need to generate any newer typings.
+// DiamondCutFacet deployed: 0x4bC6D30bb5085c3F9196462f8A501ef0e9725039
+// Diamond deployed: 0x1D183b27178C3Dc936b6991C51F69DdA8aAb0DF7
+// DiamondInit deployed: 0x05C011639FF68Ce854372654060e2fD555a1e32d
+
+// Deploying facets
+// DiamondLoupeFacet deployed: 0x3bF58985103EC71a0f9E281b4291Ea169AAe86fE
+// OwnershipFacet deployed: 0xed9CA72dC521603876E528DCccb4B9831f090074
+// Bank deployed: 0xA90C30277D250a8cbdC26F67B3ab3661AC268b1c
+
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
